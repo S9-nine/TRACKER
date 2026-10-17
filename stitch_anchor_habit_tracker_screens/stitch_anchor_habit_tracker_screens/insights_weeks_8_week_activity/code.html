@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><title>Anchor - Insights</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-low": "#f3f3f3", "error": "#ba1a1a", "on-secondary-container": "#446c44", "surface-bright": "#FAF6F1", "background": "#FAF6F1", "on-tertiary-fixed-variant": "#4c4641", "on-primary-fixed": "#3c0800", "secondary-fixed": "#c1eebc", "inverse-on-surface": "#f0f1f1", "primary-fixed": "#ffdbd2", "surface-container-lowest": "#ffffff", "on-secondary-fixed-variant": "#284f2a", "on-primary-fixed-variant": "#7c2e19", "on-tertiary-fixed": "#1f1b17", "tertiary-fixed": "#ebe1da", "on-background": "#2B2622", "on-error": "#ffffff", "on-surface-variant": "#55423e", "secondary-container": "#beecb9", "error-container": "#ffdad6", "primary-fixed-dim": "#ffb4a1", "tertiary": "#645d58", "on-secondary": "#ffffff", "inverse-primary": "#ffb4a1", "primary-container": "#e07a5f", "on-tertiary": "#ffffff", "on-surface": "#2B2622", "outline": "#88726d", "secondary": "#406840", "primary": "#9a442d", "secondary-fixed-dim": "#a5d2a2", "surface-container": "#eeeeee", "on-tertiary-container": "#332e2a", "on-primary": "#ffffff", "surface": "#FAF6F1", "on-secondary-fixed": "#002106", "surface-container-high": "#e8e8e8", "surface-container-highest": "#e2e2e2", "outline-variant": "#dbc1ba", "surface-variant": "#e2e2e2", "tertiary-fixed-dim": "#cec5bf", "inverse-surface": "#2f3131", "surface-tint": "#9a442d", "surface-dim": "#dadada", "tertiary-container": "#9d958f", "on-error-container": "#93000a", "on-primary-container": "#5b1604", "text-primary": "#2B2622", "text-muted": "#756F68", "accent-sage": "#6EA874", "accent-yellow": "#F2C14E", "accent-terracotta": "#E07A5F" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-mobile": "0.75rem", "space-xl": "2.25rem", "gutter": "1rem", "space-md": "1rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "margin-mobile": "1.25rem", "margin": "1.5rem", "space-sm": "0.5rem" }, "fontFamily": { "label-sm": ["Inter"], "label-lg": ["Inter"], "headline-sm": ["Inter"], "body-sm": ["Inter"], "body-lg": ["Inter"], "headline-lg": ["Inter"], "display-hero-mobile": ["Inter"], "display-hero": ["Inter"], "headline-md": ["Inter"], "label-md": ["Inter"], "body-md": ["Inter"], "headline-lg-mobile": ["Inter"] }, "fontSize": { "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }], "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "body-lg": ["17px", { "lineHeight": "26px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-lg": ["34px", { "lineHeight": "42px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-hero-mobile": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "600" }], "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "400" }], "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }] } } } }</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+      background-color: #FAF6F1;
+      color: #2B2622;
+    }
+  </style></head><body class="bg-[#FAF6F1] font-body-md text-[#2B2622] flex flex-col min-h-screen"><header class="fixed top-0 inset-x-0 z-50 bg-[#FAF6F1]/90 backdrop-blur-xl shadow-[0_4px_24px_-2px_rgba(43,38,34,0.04)] pt-safe"><div class="h-16 px-margin-mobile flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 flex items-center justify-center flex-shrink-0"><img alt="Anchor Logo Mark" class="w-7 h-7 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VyNK69HjxGlOd-9WqsiWhwkV3KzugxFYVNkJfryFuH09auio-4DCozBDTeovHVn3URFbPruCK70w083WpyEa4Xg8fSUeUv-VBMkQMFekny8bZfJmVfIE28rO6bfGoA0QQ33kYBe3lMqy3Sd7ZejgFN99l_PXPIZlExlWG1sHVnTzZojAFjTeZpfwmxQSS1_EEljoXviK46hSqSNHX6SOXPAQCxpqa3KVvbXYB60oRIobBlWuaP9DqpM2o"/></div><div class="flex flex-col"><span class="font-label-sm text-outline uppercase tracking-wider font-semibold">ANCHOR</span><h1 class="font-headline-sm text-[#2B2622] leading-tight">Insights</h1></div></div><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-[#E07A5F]/20 flex items-center justify-center border border-[#E07A5F]/30"><span class="material-symbols-outlined text-[#9a442d] text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col relative w-full px-margin-mobile pt-16 pb-28 bg-[#FAF6F1]"><div class="flex flex-col w-full pb-8">
+<!-- Page Header Sub-Context -->
+<div class="flex flex-col pt-2 pb-4">
+<span class="font-label-sm text-outline tracking-wider uppercase font-semibold">Analytics &amp; Trends</span>
+<h2 class="font-headline-lg-mobile text-[#2B2622] tracking-tight mt-0.5">Insights</h2>
+</div>
+<!-- Segmented Control Bar (Weeks active) -->
+<div class="w-full bg-[#ECE7E0] rounded-full p-1.5 flex items-center justify-between shadow-[0_2px_10px_rgba(43,38,34,0.03)] overflow-x-auto no-scrollbar">
+<button class="px-3.5 py-2 rounded-full font-label-md text-outline hover:text-[#2B2622] flex-shrink-0 transition-colors" type="button">7D</button>
+<button class="px-3.5 py-2 rounded-full font-label-md text-outline hover:text-[#2B2622] flex-shrink-0 transition-colors" type="button">14D</button>
+<button class="px-3.5 py-2 rounded-full font-label-md text-outline hover:text-[#2B2622] flex-shrink-0 transition-colors" type="button">Month</button>
+<button class="px-3 py-2 rounded-full font-label-md text-outline hover:text-[#2B2622] flex-shrink-0 transition-colors" type="button">Last month</button>
+<button class="px-4 py-2 rounded-full bg-white font-label-md text-[#2B2622] font-semibold shadow-[0_2px_8px_rgba(43,38,34,0.08)] flex-shrink-0 transition-transform active:scale-95" type="button">Weeks</button>
+</div>
+<!-- 8-Week Score Bar Chart Card -->
+<div class="mt-4 w-full bg-white rounded-[24px] p-space-lg shadow-[0_4px_24px_-2px_rgba(43,38,34,0.05)] relative overflow-hidden">
+<div class="flex items-center justify-between relative z-10">
+<div>
+<span class="font-label-sm text-outline uppercase tracking-wider font-semibold">Anchor Score</span>
+<h3 class="font-headline-sm text-[#2B2622] font-bold">8-Week Momentum</h3>
+</div>
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#6EA874]/15 text-[#406840] shadow-sm">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<span class="font-label-sm font-semibold tracking-tight">Avg 78</span>
+</div>
+</div>
+<!-- Score Status Row -->
+<div class="mt-3 flex items-baseline gap-2 relative z-10">
+<span class="font-display-hero text-[#2B2622] tracking-tighter leading-none font-bold">82</span>
+<span class="font-headline-sm text-outline font-normal">/ 100</span>
+<span class="ml-2 inline-flex items-center px-2 py-0.5 rounded-full bg-[#6EA874]/15 text-[#406840] font-label-sm font-semibold">Current Week</span>
+</div>
+<!-- 8-Week Chart Container -->
+<div class="mt-6 pt-2 flex items-end justify-between h-48 px-1 relative z-10">
+<!-- W36 (78% Moderate: Yellow) -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<span class="text-[11px] font-semibold text-outline">78</span>
+<div class="w-5 sm:w-6 bg-[#F2C14E] rounded-full h-[78%] shadow-[0_2px_6px_rgba(242,193,78,0.3)] transition-all duration-300"></div>
+<span class="text-[11px] font-medium text-outline">W36</span>
+</div>
+<!-- W37 (84% High: Sage Green) -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<span class="text-[11px] font-semibold text-outline">84</span>
+<div class="w-5 sm:w-6 bg-[#6EA874] rounded-full h-[84%] shadow-[0_2px_6px_rgba(110,168,116,0.3)] transition-all duration-300"></div>
+<span class="text-[11px] font-medium text-outline">W37</span>
+</div>
+<!-- W38 (91% High: Sage Green) -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<span class="text-[11px] font-semibold text-outline">91</span>
+<div class="w-5 sm:w-6 bg-[#6EA874] rounded-full h-[91%] shadow-[0_2px_6px_rgba(110,168,116,0.3)] transition-all duration-300"></div>
+<span class="text-[11px] font-medium text-outline">W38</span>
+</div>
+<!-- W39 (65% Lower: Terracotta) -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<span class="text-[11px] font-semibold text-outline">65</span>
+<div class="w-5 sm:w-6 bg-[#E07A5F] rounded-full h-[65%] shadow-[0_2px_6px_rgba(224,122,95,0.3)] transition-all duration-300"></div>
+<span class="text-[11px] font-medium text-outline">W39</span>
+</div>
+<!-- W40 (82% High: Sage Green) -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<span class="text-[11px] font-semibold text-outline">82</span>
+<div class="w-5 sm:w-6 bg-[#6EA874] rounded-full h-[82%] shadow-[0_2px_6px_rgba(110,168,116,0.3)] transition-all duration-300"></div>
+<span class="text-[11px] font-medium text-outline">W40</span>
+</div>
+<!-- W41 (58% Lower: Terracotta) -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<span class="text-[11px] font-semibold text-outline">58</span>
+<div class="w-5 sm:w-6 bg-[#E07A5F] rounded-full h-[58%] shadow-[0_2px_6px_rgba(224,122,95,0.3)] transition-all duration-300"></div>
+<span class="text-[11px] font-medium text-outline">W41</span>
+</div>
+<!-- W42 (88% High: Sage Green) -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<span class="text-[11px] font-semibold text-outline">88</span>
+<div class="w-5 sm:w-6 bg-[#6EA874] rounded-full h-[88%] shadow-[0_2px_6px_rgba(110,168,116,0.3)] transition-all duration-300"></div>
+<span class="text-[11px] font-medium text-outline">W42</span>
+</div>
+<!-- W43 (Current - 82% Highlighted) -->
+<div class="flex flex-col items-center gap-2 h-full justify-end relative">
+<span class="text-[11px] font-bold text-[#406840]">82</span>
+<div class="relative flex items-center justify-center h-[82%]">
+<div class="w-5 sm:w-6 bg-[#6EA874] rounded-full h-full shadow-[0_0_12px_2px_rgba(110,168,116,0.5)] ring-2 ring-[#406840] ring-offset-2 ring-offset-white transition-all duration-300"></div>
+</div>
+<div class="relative flex flex-col items-center">
+<span class="text-[11px] font-bold text-[#2B2622]">W43</span>
+<span class="text-[9px] font-semibold px-1 py-0.2 rounded bg-[#6EA874]/20 text-[#406840] -mt-0.5">Now</span>
+</div>
+</div>
+</div>
+<!-- Color Legend -->
+<div class="mt-6 pt-3 border-t border-[#f0ebe4] flex items-center justify-center gap-4 text-[12px] text-outline">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#6EA874]"></span>
+<span>≥80 High</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#F2C14E]"></span>
+<span>70-79 Moderate</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#E07A5F]"></span>
+<span>&lt;70 Lower</span>
+</div>
+</div>
+</div>
+<!-- Activity Breakdown Section -->
+<div class="mt-7 flex items-center justify-between">
+<div>
+<h3 class="font-headline-sm text-[#2B2622] font-bold">Activity</h3>
+<span class="font-body-sm text-outline">Grouped by day this week</span>
+</div>
+<button class="px-3 py-1 rounded-full bg-white border border-[#EAEAE8] text-[12px] font-medium text-[#2B2622] flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-outline">filter_list</span>
+All habits
+</button>
+</div>
+<!-- Grouped Activity List -->
+<div class="mt-4 flex flex-col gap-4">
+<!-- Group 1: Today — Thu, Oct 15 -->
+<div class="bg-white rounded-[24px] p-4 shadow-[0_4px_24px_-2px_rgba(43,38,34,0.05)]">
+<div class="flex items-center justify-between pb-3 border-b border-[#F7F4EE]">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#6EA874]"></span>
+<span class="font-label-md font-bold text-[#2B2622]">Today — Thu, Oct 15</span>
+</div>
+<span class="font-label-sm text-[#6EA874] font-semibold">2 of 3 Done</span>
+</div>
+<div class="divide-y divide-[#F7F4EE]">
+<!-- Item 1: Run 20 min (Done) -->
+<div class="py-3 flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-[#6EA874]/15 text-[#406840] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md font-medium text-[#2B2622] truncate">Run 20 min</span>
+<span class="font-body-sm text-outline">6:30 AM • Morning Routine</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-[#6EA874]/15 text-[#406840] font-label-sm font-semibold">Done</span>
+</div>
+<!-- Item 2: Read 20 pages (Done) -->
+<div class="py-3 flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-[#6EA874]/15 text-[#406840] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md font-medium text-[#2B2622] truncate">Read 20 pages</span>
+<span class="font-body-sm text-outline">9:00 AM • Focus Block</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-[#6EA874]/15 text-[#406840] font-label-sm font-semibold">Done</span>
+</div>
+<!-- Item 3: Study DSA (Snoozed) -->
+<div class="py-3 flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-[#F2C14E]/20 text-[#B87A00] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md font-medium text-[#2B2622] truncate">Study DSA</span>
+<span class="font-body-sm text-outline">6:00 PM • Snoozed 30m</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-[#F2C14E]/20 text-[#9E6500] font-label-sm font-semibold">Snoozed</span>
+</div>
+</div>
+</div>
+<!-- Group 2: Yesterday — Wed, Oct 14 -->
+<div class="bg-white rounded-[24px] p-4 shadow-[0_4px_24px_-2px_rgba(43,38,34,0.05)]">
+<div class="flex items-center justify-between pb-3 border-b border-[#F7F4EE]">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="font-label-md font-bold text-[#2B2622]">Yesterday — Wed, Oct 14</span>
+</div>
+<span class="font-label-sm text-outline font-semibold">1 Skipped</span>
+</div>
+<div class="divide-y divide-[#F7F4EE]">
+<!-- Item 4: Stretch 10 min (Skipped) -->
+<div class="py-3 flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-[#F0EDE8] text-outline flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]">redo</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md font-medium text-[#2B2622] truncate">Stretch 10 min</span>
+<span class="font-body-sm text-outline">1:00 PM • Midday reset</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-[#F0EDE8] text-outline font-label-sm font-semibold">Skipped</span>
+</div>
+<!-- Item 5: Read 20 pages (Done) -->
+<div class="py-3 flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-[#6EA874]/15 text-[#406840] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md font-medium text-[#2B2622] truncate">Read 20 pages</span>
+<span class="font-body-sm text-outline">9:30 PM • Evening wind down</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-[#6EA874]/15 text-[#406840] font-label-sm font-semibold">Done</span>
+</div>
+</div>
+</div>
+<!-- Group 3: Tue, Oct 13 -->
+<div class="bg-white rounded-[24px] p-4 shadow-[0_4px_24px_-2px_rgba(43,38,34,0.05)]">
+<div class="flex items-center justify-between pb-3 border-b border-[#F7F4EE]">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#E07A5F]"></span>
+<span class="font-label-md font-bold text-[#2B2622]">Tue, Oct 13</span>
+</div>
+<span class="font-label-sm text-[#E07A5F] font-semibold">1 Missed</span>
+</div>
+<div class="divide-y divide-[#F7F4EE]">
+<!-- Item 6: Evening Mobility (Missed) -->
+<div class="py-3 flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full border-2 border-[#D8D2CA] text-[#A69F96] flex items-center justify-center flex-shrink-0 bg-transparent">
+<span class="material-symbols-outlined text-[20px]">radio_button_unchecked</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md font-medium text-[#2B2622] truncate">Evening Mobility</span>
+<span class="font-body-sm text-outline">10:00 PM • Bedtime prep</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-[#E07A5F]/15 text-[#E07A5F] font-label-sm font-semibold">Missed</span>
+</div>
+<!-- Item 7: Run 20 min (Done) -->
+<div class="py-3 flex items-center justify-between">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-9 h-9 rounded-full bg-[#6EA874]/15 text-[#406840] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md font-medium text-[#2B2622] truncate">Run 20 min</span>
+<span class="font-body-sm text-outline">7:00 AM • Morning routine</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-[#6EA874]/15 text-[#406840] font-label-sm font-semibold">Done</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Tab Bar with warm green glow rising above -->
+<nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-white/95 backdrop-blur-xl border-t border-[#6EA874]" data-active-classes="text-[#406840]" style="box-shadow: 0 -8px 24px -2px rgba(110, 168, 116, 0.4);">
+<div class="flex justify-around items-center h-16 px-gutter">
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-outline hover:text-[#2B2622] transition-colors" data-path="today" href="#">
+<span class="material-symbols-outlined text-[24px]">alarm_on</span>
+<span class="font-label-sm">Today</span>
+</a>
+<a aria-current="page" class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] transition-colors text-[#406840] font-semibold" data-path="insights" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="font-label-sm">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 min-w-[56px] min-h-[44px] text-outline hover:text-[#2B2622] transition-colors" data-path="goals" href="#">
+<span class="material-symbols-outlined text-[24px]">anchor</span>
+<span class="font-label-sm">Goals</span>
+</a>
+</div>
+</nav>
+</body></html>

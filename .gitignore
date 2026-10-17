@@ -1,0 +1,10 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+
+# Flutter build output (also covered per-project)
+build/
+.dart_tool/
