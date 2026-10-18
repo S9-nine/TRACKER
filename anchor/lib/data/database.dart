@@ -12,8 +12,16 @@ class AnchorDb {
     final path = p.join(await getDatabasesPath(), 'anchor.db');
     final db = await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onConfigure: (db) => db.execute('PRAGMA foreign_keys = ON'),
+      onUpgrade: (db, from, _) async {
+        if (from < 2) {
+          // Existing tasks count from today, so history before the upgrade isn't read as missed.
+          await db.execute('ALTER TABLE tasks ADD COLUMN created_at INTEGER NOT NULL DEFAULT 0');
+          await db.update('tasks', {'created_at': DateTime.now().millisecondsSinceEpoch});
+          await _createSettings(db);
+        }
+      },
       onCreate: (db, _) async {
         await db.execute('''
           CREATE TABLE goals (
@@ -30,7 +38,8 @@ class AnchorDb {
             title TEXT NOT NULL,
             minute_of_day INTEGER NOT NULL,
             days INTEGER NOT NULL,
-            intensity INTEGER NOT NULL
+            intensity INTEGER NOT NULL,
+            created_at INTEGER NOT NULL
           )''');
         await db.execute('''
           CREATE TABLE logs (
@@ -41,9 +50,25 @@ class AnchorDb {
             at INTEGER NOT NULL
           )''');
         await db.execute('CREATE INDEX logs_day ON logs(day)');
+        await _createSettings(db);
       },
     );
     return AnchorDb._(db);
+  }
+
+  static Future<void> _createSettings(Database db) =>
+      db.execute('CREATE TABLE settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)');
+
+  Future<AppSettings> settings() async {
+    final rows = await _db.query('settings');
+    return AppSettings.fromRows({for (final r in rows) r['key'] as String: r['value'] as String});
+  }
+
+  Future<void> saveSettings(AppSettings s) async {
+    final batch = _db.batch();
+    s.toRows().forEach((k, v) => batch.insert('settings', {'key': k, 'value': v},
+        conflictAlgorithm: ConflictAlgorithm.replace));
+    await batch.commit(noResult: true);
   }
 
   Future<List<Goal>> goals() async =>

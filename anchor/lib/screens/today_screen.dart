@@ -1,4 +1,3 @@
-import 'package:auto_start_flutter/auto_start_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -6,6 +5,8 @@ import '../data/models.dart';
 import '../data/store.dart';
 import '../main.dart';
 import '../theme/anchor_colors.dart';
+import 'settings_screen.dart';
+import 'setup_screen.dart';
 import 'task_sheet.dart';
 import 'widgets.dart';
 
@@ -29,6 +30,8 @@ class TodayScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 100),
               children: [
                 _Header(today: today),
+                const _SetupBanner(),
+                if (store.awaitingToday().isNotEmpty) _CheckIn(tasks: store.awaitingToday()),
                 const SizedBox(height: 20),
                 _ProgressCard(tasks: tasks),
                 const SizedBox(height: 12),
@@ -59,27 +62,6 @@ class _Header extends StatelessWidget {
 
   final DateTime today;
 
-  Future<void> _reliability(BuildContext context) async {
-    final available = await isAutoStartAvailable;
-    if (!context.mounted) return;
-    final open = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Alarm reliability'),
-        content: Text(available == true
-            ? 'Some phones stop background apps. Allow auto-start for Anchor and set battery usage to '
-                'Unrestricted so alarms ring with the app closed.'
-            : 'Set Anchor\'s battery usage to Unrestricted in system settings so alarms ring with the app closed.'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Later')),
-          if (available == true)
-            TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Open settings')),
-        ],
-      ),
-    );
-    if (open == true) await getAutoStartPermission();
-  }
-
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
@@ -97,11 +79,135 @@ class _Header extends StatelessWidget {
           ),
         ),
         IconButton(
-          tooltip: 'Alarm reliability',
-          onPressed: () => _reliability(context),
-          icon: Icon(Icons.shield_outlined, color: c.textMuted),
+          tooltip: 'Settings',
+          onPressed: () => Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const SettingsScreen())),
+          icon: Icon(Icons.settings_outlined, color: c.textMuted),
         ),
       ],
+    );
+  }
+}
+
+/// Shown when a permission alarms can't work without has been turned off.
+class _SetupBanner extends StatefulWidget {
+  const _SetupBanner();
+
+  @override
+  State<_SetupBanner> createState() => _SetupBannerState();
+}
+
+class _SetupBannerState extends State<_SetupBanner> {
+  late final AppLifecycleListener _lifecycle;
+  bool _ok = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _lifecycle = AppLifecycleListener(onResume: _check);
+    _check();
+  }
+
+  @override
+  void dispose() {
+    _lifecycle.dispose();
+    super.dispose();
+  }
+
+  Future<void> _check() async {
+    final ok = await PermissionHealth.essentialsOk();
+    if (mounted && ok != _ok) setState(() => _ok = ok);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_ok) return const SizedBox.shrink();
+    final c = context.colors;
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Material(
+        color: c.accentSoft,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () async {
+            await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const SetupScreen()));
+            _check();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Icon(Icons.warning_amber_rounded, color: c.accent),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Text('Alarms may not ring — a permission is off.',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+                ),
+                Text('Fix', style: TextStyle(color: c.accent, fontWeight: FontWeight.w700)),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Asks about today's tasks whose time passed without an answer — for example
+/// an alarm stopped from its notification instead of the ring screen.
+class _CheckIn extends StatelessWidget {
+  const _CheckIn({required this.tasks});
+
+  final List<Task> tasks;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.colors;
+    final day = dayKey(store.today);
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 12, 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Did you do it?', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 2),
+              Text('These went off without an answer.', style: TextStyle(color: c.textMuted, fontSize: 13)),
+              const SizedBox(height: 8),
+              for (final t in tasks)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text.rich(
+                          TextSpan(children: [
+                            TextSpan(text: t.title, style: const TextStyle(fontWeight: FontWeight.w600)),
+                            TextSpan(
+                                text: '  ${formatMinute(t.minuteOfDay)}', style: TextStyle(color: c.textMuted)),
+                          ]),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => store.log(t.id!, day, LogStatus.skipped),
+                        style: TextButton.styleFrom(foregroundColor: c.textMuted),
+                        child: const Text('Skip'),
+                      ),
+                      FilledButton(
+                        onPressed: () => store.log(t.id!, day, LogStatus.done),
+                        style: FilledButton.styleFrom(minimumSize: const Size(0, 38)),
+                        child: const Text('Done'),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -247,7 +353,7 @@ class _TaskTile extends StatelessWidget {
       LogStatus.done => Pill('Done', color: c.done, background: c.doneSoft),
       LogStatus.skipped => Pill('Skipped', color: c.skipped, background: c.surfaceMuted),
       _ when isNext => Pill(formatUntil(due.difference(now)), color: c.accent, background: c.accentSoft),
-      _ when due.isBefore(now) => Pill('Missed', color: c.textMuted, background: c.surfaceMuted),
+      _ when store.isAwaiting(task, day) => Pill('No answer', color: c.textMuted, background: c.surfaceMuted),
       _ => const SizedBox.shrink(),
     };
 

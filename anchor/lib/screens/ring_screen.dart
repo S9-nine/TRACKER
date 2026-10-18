@@ -50,7 +50,7 @@ class _RingScreenState extends State<RingScreen> {
     if (_busy) return;
     setState(() => _busy = true);
     if (status == LogStatus.snoozed) {
-      await AlarmScheduler.snooze(widget.alarm);
+      await AlarmScheduler.snooze(widget.alarm, store.settings.snooze);
     } else {
       await Alarm.stop(widget.alarm.id);
     }
@@ -108,7 +108,7 @@ class _RingScreenState extends State<RingScreen> {
                   children: [
                     Expanded(
                       child: _GhostButton(
-                        label: 'Snooze ${AlarmScheduler.snoozeDuration.inMinutes} min',
+                        label: 'Snooze ${store.settings.snoozeMinutes} min',
                         onPressed: _busy ? null : () => _answer(LogStatus.snoozed),
                       ),
                     ),

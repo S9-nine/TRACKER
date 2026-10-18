@@ -182,9 +182,11 @@ class _TaskSheetState extends State<_TaskSheet> {
             ),
             const SizedBox(height: 8),
             Text(
-              _intensity == Intensity.alarm
-                  ? 'Rings full-screen, even on silent, until you answer it.'
-                  : 'Nudges and reminders are coming soon — this task won\'t ring yet.',
+              switch (_intensity) {
+                Intensity.alarm => 'Rings full-screen, even on silent, until you answer it.',
+                Intensity.reminder => 'A notification with sound, and Done / Skip buttons.',
+                Intensity.nudge => 'A quiet notification — no sound.',
+              },
               style: TextStyle(color: c.textMuted, fontSize: 13),
             ),
             const SizedBox(height: 24),

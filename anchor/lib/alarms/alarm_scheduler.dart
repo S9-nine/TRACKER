@@ -16,8 +16,9 @@ class AlarmTarget {
 
   String encode() => jsonEncode({'taskId': taskId, 'day': day, 'minute': minuteOfDay});
 
-  static AlarmTarget? of(AlarmSettings a) {
-    final raw = a.payload;
+  static AlarmTarget? of(AlarmSettings a) => decode(a.payload);
+
+  static AlarmTarget? decode(String? raw) {
     if (raw == null) return null;
     try {
       final m = jsonDecode(raw) as Map<String, dynamic>;
@@ -35,7 +36,9 @@ class AlarmTarget {
 /// resume tops the window back up.
 class AlarmScheduler {
   static const horizonDays = 7;
-  static const snoozeDuration = Duration(minutes: 5);
+
+  /// The "Test alarm" button's alarm; never belongs to a task.
+  static const testAlarmId = 1;
 
   /// Stable id per (task, day). Unique within any 100-day window.
   static int alarmId(int taskId, DateTime day) {
@@ -44,7 +47,14 @@ class AlarmScheduler {
   }
 
   /// [resolved] holds [AlarmTarget.key]s already answered with Done or Skip.
-  static Future<void> sync({required List<Task> tasks, required Set<String> resolved}) async {
+  ///
+  /// [force] re-creates every pending alarm, e.g. after the sound settings change.
+  static Future<void> sync({
+    required List<Task> tasks,
+    required Set<String> resolved,
+    required AppSettings settings,
+    bool force = false,
+  }) async {
     final now = DateTime.now();
     final today = dateOnly(now);
     final byId = {for (final t in tasks) t.id!: t};
@@ -59,12 +69,12 @@ class AlarmScheduler {
         if (!due.isAfter(now)) continue;
         final target = AlarmTarget(task.id!, dayKey(day), task.minuteOfDay);
         if (resolved.contains(target.key)) continue;
-        desired[alarmId(task.id!, day)] = _settings(alarmId(task.id!, day), task, due, target);
+        desired[alarmId(task.id!, day)] = _settings(alarmId(task.id!, day), task, due, target, settings);
       }
     }
 
     for (final existing in await Alarm.getAlarms()) {
-      if (await Alarm.isRinging(existing.id)) {
+      if (existing.id == testAlarmId || await Alarm.isRinging(existing.id)) {
         desired.remove(existing.id);
         continue;
       }
@@ -72,7 +82,8 @@ class AlarmScheduler {
       final task = target == null ? null : byId[target.taskId];
       // A pending alarm for an unanswered occurrence whose task is unchanged
       // stays as it is — that's how a snooze survives a sync.
-      final keep = target != null &&
+      final keep = !force &&
+          target != null &&
           task != null &&
           task.intensity == Intensity.alarm &&
           task.minuteOfDay == target.minuteOfDay &&
@@ -87,28 +98,46 @@ class AlarmScheduler {
       }
     }
 
-    for (final settings in desired.values) {
-      await Alarm.set(alarmSettings: settings);
+    for (final a in desired.values) {
+      await Alarm.set(alarmSettings: a);
     }
   }
 
-  static Future<void> snooze(AlarmSettings ringing) => Alarm.set(
-        alarmSettings: ringing.copyWith(dateTime: DateTime.now().add(snoozeDuration)),
+  static Future<void> setTestAlarm(AppSettings s) => Alarm.set(
+        alarmSettings: AlarmSettings(
+          id: testAlarmId,
+          dateTime: DateTime.now().add(const Duration(seconds: 10)),
+          assetAudioPath: 'assets/alarm.wav',
+          vibrate: s.vibrate,
+          allowSameSecondScheduling: true,
+          volumeSettings: VolumeSettings.fixed(volume: s.volume, volumeEnforced: true),
+          notificationSettings: const NotificationSettings(
+            title: 'Test alarm',
+            body: 'If you can hear this, alarms work.',
+            stopButton: 'Stop',
+          ),
+        ),
       );
 
-  static AlarmSettings _settings(int id, Task task, DateTime due, AlarmTarget target) => AlarmSettings(
+  static Future<void> snooze(AlarmSettings ringing, Duration by) => Alarm.set(
+        alarmSettings: ringing.copyWith(dateTime: DateTime.now().add(by)),
+      );
+
+  static AlarmSettings _settings(int id, Task task, DateTime due, AlarmTarget target, AppSettings s) => AlarmSettings(
         id: id,
         dateTime: due,
         assetAudioPath: 'assets/alarm.wav',
         loopAudio: true,
-        vibrate: true,
+        vibrate: s.vibrate,
         androidFullScreenIntent: true,
         allowSameSecondScheduling: true,
-        volumeSettings: VolumeSettings.fixed(volume: 1.0, volumeEnforced: true),
+        androidSnoozeDuration: s.snooze,
+        volumeSettings: VolumeSettings.fixed(volume: s.volume, volumeEnforced: true),
         notificationSettings: NotificationSettings(
           title: task.title,
           body: 'Tap to open Anchor',
           stopButton: 'Stop',
+          androidSnoozeButton: 'Snooze',
         ),
         payload: target.encode(),
       );

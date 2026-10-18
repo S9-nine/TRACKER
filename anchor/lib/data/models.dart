@@ -1,7 +1,9 @@
-/// How loudly a task asks for attention. Only [alarm] rings in this version.
+/// How loudly a task asks for attention: a quiet notification, one with sound, or a full-screen alarm.
 enum Intensity { nudge, reminder, alarm }
 
 enum LogStatus { done, skipped, snoozed }
+
+enum AppThemeMode { system, light, dark }
 
 /// `yyyy-mm-dd` key for a calendar day.
 String dayKey(DateTime d) =>
@@ -50,6 +52,7 @@ class Task {
     required this.minuteOfDay,
     this.days = everyDay,
     this.intensity = Intensity.alarm,
+    this.createdAt,
   });
 
   final int? id;
@@ -63,7 +66,12 @@ class Task {
   final int days;
   final Intensity intensity;
 
-  bool occursOn(DateTime day) => days & weekdayBit(day) != 0;
+  /// Null only for a task not yet saved.
+  final DateTime? createdAt;
+
+  /// Whether the task is scheduled on [day] (and already existed then).
+  bool occursOn(DateTime day) =>
+      days & weekdayBit(day) != 0 && (createdAt == null || !dateOnly(day).isBefore(dateOnly(createdAt!)));
 
   DateTime dueOn(DateTime day) => DateTime(day.year, day.month, day.day, minuteOfDay ~/ 60, minuteOfDay % 60);
 
@@ -75,6 +83,7 @@ class Task {
         minuteOfDay: minuteOfDay ?? this.minuteOfDay,
         days: days ?? this.days,
         intensity: intensity ?? this.intensity,
+        createdAt: createdAt,
       );
 
   Map<String, Object?> toMap() => {
@@ -84,6 +93,7 @@ class Task {
         'minute_of_day': minuteOfDay,
         'days': days,
         'intensity': intensity.index,
+        'created_at': (createdAt ?? DateTime.now()).millisecondsSinceEpoch,
       };
 
   factory Task.fromMap(Map<String, Object?> m) => Task(
@@ -93,6 +103,7 @@ class Task {
         minuteOfDay: m['minute_of_day'] as int,
         days: m['days'] as int,
         intensity: Intensity.values[m['intensity'] as int],
+        createdAt: DateTime.fromMillisecondsSinceEpoch(m['created_at'] as int),
       );
 }
 
@@ -121,5 +132,49 @@ class TaskLog {
         day: m['day'] as String,
         status: LogStatus.values.byName(m['status'] as String),
         at: DateTime.fromMillisecondsSinceEpoch(m['at'] as int),
+      );
+}
+
+/// User preferences, stored as key/value rows in the `settings` table.
+class AppSettings {
+  const AppSettings({
+    this.snoozeMinutes = 5,
+    this.volume = 1.0,
+    this.vibrate = true,
+    this.themeMode = AppThemeMode.system,
+    this.setupDone = false,
+  });
+
+  final int snoozeMinutes;
+  final double volume;
+  final bool vibrate;
+  final AppThemeMode themeMode;
+  final bool setupDone;
+
+  Duration get snooze => Duration(minutes: snoozeMinutes);
+
+  AppSettings copyWith({int? snoozeMinutes, double? volume, bool? vibrate, AppThemeMode? themeMode, bool? setupDone}) =>
+      AppSettings(
+        snoozeMinutes: snoozeMinutes ?? this.snoozeMinutes,
+        volume: volume ?? this.volume,
+        vibrate: vibrate ?? this.vibrate,
+        themeMode: themeMode ?? this.themeMode,
+        setupDone: setupDone ?? this.setupDone,
+      );
+
+  Map<String, String> toRows() => {
+        'snooze_minutes': '$snoozeMinutes',
+        'volume': '$volume',
+        'vibrate': '$vibrate',
+        'theme_mode': themeMode.name,
+        'setup_done': '$setupDone',
+      };
+
+  factory AppSettings.fromRows(Map<String, String> r) => AppSettings(
+        snoozeMinutes: int.tryParse(r['snooze_minutes'] ?? '') ?? 5,
+        volume: double.tryParse(r['volume'] ?? '') ?? 1.0,
+        vibrate: r['vibrate'] != 'false',
+        themeMode: AppThemeMode.values.asNameMap()[r['theme_mode']] ?? AppThemeMode.system,
+        setupDone: r['setup_done'] == 'true',
       );
 }
